@@ -11,7 +11,8 @@ Nuxt 4 module that automatically uploads your static build assets to S3-compatib
 
 ## Features
 
-- Uploads `_nuxt/` assets to any S3-compatible bucket after `build:done`
+- Uploads built assets to any S3-compatible bucket via the `nitro:build:public-assets` hook
+- Output path and S3 key prefix are derived automatically from `nitro.output.publicDir` and `app.buildAssetsDir` — no path config needed
 - Skips unchanged files via ETag / MD5 checksum (equivalent to `rclone --checksum`)
 - Concurrent uploads (16 parallel requests)
 - Correct `Cache-Control` headers — immutable for hashed assets, `no-store` for `latest.json`
@@ -35,7 +36,6 @@ export default defineNuxtConfig({
       endpoint: 'https://<accountid>.r2.cloudflarestorage.com',
       accessKey: process.env.S3_ACCESS_KEY,
       secretKey: process.env.S3_SECRET_KEY,
-      // outputDir: '.output/public/_nuxt', // default
     },
   },
 })
@@ -43,15 +43,16 @@ export default defineNuxtConfig({
 
 ## Configuration
 
-| Option       | Type     | Required | Default                    | Description                        |
-|--------------|----------|----------|----------------------------|------------------------------------|
-| `bucket`     | `string` | yes      | —                          | S3 bucket name                     |
-| `endpoint`   | `string` | yes      | —                          | S3-compatible endpoint URL         |
-| `accessKey`  | `string` | yes      | —                          | Access key ID                      |
-| `secretKey`  | `string` | yes      | —                          | Secret access key                  |
-| `outputDir`  | `string` | no       | `.output/public/_nuxt`     | Local directory to upload          |
+| Option       | Type     | Required | Description                        |
+|--------------|----------|----------|------------------------------------|
+| `bucket`     | `string` | yes      | S3 bucket name                     |
+| `endpoint`   | `string` | yes      | S3-compatible endpoint URL         |
+| `accessKey`  | `string` | yes      | Access key ID                      |
+| `secretKey`  | `string` | yes      | Secret access key                  |
 
 If any required field is missing the module logs a warning and skips the upload — the build itself is never aborted.
+
+The upload directory and S3 key prefix are resolved automatically from your Nuxt config.
 
 ## Environment variables
 

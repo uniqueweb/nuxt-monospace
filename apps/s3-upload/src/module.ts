@@ -1,10 +1,13 @@
+import { join } from 'node:path'
 import { defineNuxtModule, useLogger } from '@nuxt/kit'
-import type { S3Config } from './utils/s3-upload'
-
-export type { S3Config }
 
 export interface ModuleOptions {
-  s3: Partial<S3Config>
+  s3: {
+    bucket?: string
+    endpoint?: string
+    accessKey?: string
+    secretKey?: string
+  }
 }
 
 declare module '@nuxt/schema' {
@@ -22,9 +25,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   defaults: {
-    s3: {
-      outputDir: '.output/public/_nuxt',
-    },
+    s3: {},
   },
 
   setup(options, nuxt) {
@@ -40,20 +41,20 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
 
-    const config: S3Config = {
-      rootDir: nuxt.options.rootDir,
-      bucket: s3.bucket!,
-      outputDir: s3.outputDir ?? '.output/public/_nuxt',
-      endpoint: s3.endpoint!,
-      accessKey: s3.accessKey!,
-      secretKey: s3.secretKey!,
-    }
+    nuxt.hook('nitro:build:public-assets', async (nitro) => {
+      const buildAssetsDir = nuxt.options.app.buildAssetsDir.replace(/^\/|\/$/g, '')
 
-    nuxt.hook('build:done', async () => {
       logger.info('Uploading build assets')
       try {
         const { uploadAssets } = await import('./utils/s3-upload')
-        await uploadAssets(config)
+        await uploadAssets({
+          bucket: s3.bucket!,
+          endpoint: s3.endpoint!,
+          accessKey: s3.accessKey!,
+          secretKey: s3.secretKey!,
+          dir: join(nitro.options.output.publicDir, buildAssetsDir),
+          prefix: buildAssetsDir,
+        })
         logger.success('S3 build assets upload completed.')
       }
       catch (err) {

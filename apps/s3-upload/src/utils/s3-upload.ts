@@ -10,9 +10,9 @@ import {
 } from '@aws-sdk/client-s3'
 
 export interface S3Config {
-  rootDir: string
   bucket: string
-  outputDir: string
+  dir: string
+  prefix: string
   endpoint: string
   accessKey: string
   secretKey: string
@@ -26,14 +26,13 @@ interface UploadTask {
 }
 
 export async function uploadAssets(config: S3Config): Promise<void> {
-  const { bucket, outputDir, endpoint, accessKey, secretKey, rootDir: projectRoot } = config
-  const rootDir = join(projectRoot, outputDir)
+  const { bucket, dir, prefix, endpoint, accessKey, secretKey } = config
 
   try {
-    await stat(rootDir)
+    await stat(dir)
   }
   catch {
-    throw new Error(`Output directory not found: ${rootDir}`)
+    throw new Error(`Output directory not found: ${dir}`)
   }
 
   const region = endpoint.replace('https://', '').split('.')[0] ?? 'auto'
@@ -48,8 +47,8 @@ export async function uploadAssets(config: S3Config): Promise<void> {
     forcePathStyle: false,
   })
 
-  const allFiles = await collectFiles(rootDir)
-  const tasks = buildTasks(rootDir, allFiles, bucket)
+  const allFiles = await collectFiles(dir)
+  const tasks = buildTasks(dir, allFiles, bucket, prefix)
 
   const concurrency = 16
   for (let i = 0; i < tasks.length; i += concurrency) {
@@ -59,16 +58,16 @@ export async function uploadAssets(config: S3Config): Promise<void> {
   }
 }
 
-function buildTasks(rootDir: string, files: string[], bucket: string): UploadTask[] {
+function buildTasks(dir: string, files: string[], bucket: string, prefix: string): UploadTask[] {
   const tasks: UploadTask[] = []
 
   for (const filePath of files) {
-    const rel = relative(rootDir, filePath)
+    const rel = relative(dir, filePath)
 
     if (rel.startsWith('builds/meta/')) {
       tasks.push({
         bucket,
-        key: `_nuxt/${rel}`,
+        key: `${prefix}/${rel}`,
         filePath,
         cacheControl: 'public, max-age=31536000, immutable',
       })
@@ -76,7 +75,7 @@ function buildTasks(rootDir: string, files: string[], bucket: string): UploadTas
     else if (rel === 'builds/latest.json') {
       tasks.push({
         bucket,
-        key: `_nuxt/${rel}`,
+        key: `${prefix}/${rel}`,
         filePath,
         cacheControl: 'no-store',
       })
@@ -84,7 +83,7 @@ function buildTasks(rootDir: string, files: string[], bucket: string): UploadTas
     else if (!rel.startsWith('builds/')) {
       tasks.push({
         bucket,
-        key: `_nuxt/${rel}`,
+        key: `${prefix}/${rel}`,
         filePath,
         cacheControl: 'public, max-age=31536000, immutable',
       })
