@@ -10,6 +10,7 @@ import {
 } from '@aws-sdk/client-s3'
 
 export interface S3Config {
+  rootDir: string
   bucket: string
   outputDir: string
   endpoint: string
@@ -25,9 +26,8 @@ interface UploadTask {
 }
 
 export async function uploadAssets(config: S3Config): Promise<void> {
-  const { bucket, outputDir, endpoint, accessKey, secretKey } = config
-
-  const rootDir = join(process.cwd(), outputDir)
+  const { bucket, outputDir, endpoint, accessKey, secretKey, rootDir: projectRoot } = config
+  const rootDir = join(projectRoot, outputDir)
 
   try {
     await stat(rootDir)
