@@ -1,0 +1,23 @@
+name: Release s3-upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    uses: ./.github/workflows/_release.yml
+    with:
+      module: s3-upload
+      bump: ${{ inputs.bump }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
