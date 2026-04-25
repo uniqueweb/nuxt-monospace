@@ -41,6 +41,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const config: S3Config = {
+      rootDir: nuxt.options.rootDir,
       bucket: s3.bucket!,
       outputDir: s3.outputDir ?? '.output/public/_nuxt',
       endpoint: s3.endpoint!,
@@ -49,11 +50,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     nuxt.hook('build:done', async () => {
-      logger.info(`Uploading build assets to s3://${config.bucket}/ ...`)
+      logger.info('Uploading build assets')
       try {
         const { uploadAssets } = await import('./utils/s3-upload')
         await uploadAssets(config)
-        logger.success('S3 upload complete.')
+        logger.success('S3 build assets upload completed.')
       }
       catch (err) {
         logger.error('S3 upload failed:', err)
