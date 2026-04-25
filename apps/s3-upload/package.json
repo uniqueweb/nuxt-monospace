@@ -34,7 +34,8 @@
     "dev:build": "nuxt build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
     "release": "npm run lint && npm run prepack",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1037.0",
