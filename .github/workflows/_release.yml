@@ -47,6 +47,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Prepare type stubs
+        run: npm run dev:prepare
+
       - name: Build module
         run: npm run prepack
 
