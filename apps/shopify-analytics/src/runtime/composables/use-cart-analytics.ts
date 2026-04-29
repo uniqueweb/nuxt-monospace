@@ -1,5 +1,6 @@
 import { watch } from 'vue'
 import type { AnalyticsCart } from '../types/payloads'
+import { useShopifyAnalytics } from './use-shopify-analytics'
 
 export function useCartAnalytics(cartStore: Record<string, unknown>) {
   if (!import.meta.client) return
