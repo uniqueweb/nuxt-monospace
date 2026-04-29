@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.3
+
+[compare changes](https://github.com/uniqueweb/nuxt-monospace/compare/v0.0.2...v0.0.3)
+
+### 🩹 Fixes
+
+- **shopify-analytics:** Use explicit nuxt/app imports and add missing composable import ([6a1a84c](https://github.com/uniqueweb/nuxt-monospace/commit/6a1a84c))
+
+### ❤️ Contributors
+
+- Maximilian Schwarz <maximilian@unique-web.de>
+
 ## v0.0.2
 
 [compare changes](https://github.com/uniqueweb/nuxt-monospace/compare/v0.0.1...v0.0.2)
