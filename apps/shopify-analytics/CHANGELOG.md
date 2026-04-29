@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.2
+
+[compare changes](https://github.com/uniqueweb/nuxt-monospace/compare/v0.0.1...v0.0.2)
+
+### 🩹 Fixes
+
+- **shopify-analytics:** Import useRuntimeConfig from #imports ([00cefef](https://github.com/uniqueweb/nuxt-monospace/commit/00cefef))
+
+### 📖 Documentation
+
+- **shopify-analytics:** Add README and .gitignore ([9a55f3e](https://github.com/uniqueweb/nuxt-monospace/commit/9a55f3e))
+
+### ❤️ Contributors
+
+- Maximilian Schwarz <maximilian@unique-web.de>
+
 ## v0.0.1
 
 [compare changes](https://github.com/uniqueweb/nuxt-monospace/compare/v1.1.0...v0.0.1)

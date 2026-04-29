@@ -1,6 +1,6 @@
 {
   "name": "@uniqueweb/shopify-analytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nuxt module — Shopify Analytics integration via Monorail",
   "repository": "uniqueweb/nuxt-monospace",
   "license": "MIT",
