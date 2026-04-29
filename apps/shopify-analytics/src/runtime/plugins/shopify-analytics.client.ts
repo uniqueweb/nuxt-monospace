@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig } from '#imports'
 import { useShopifyAnalytics } from '../composables/use-shopify-analytics'
 import { useShopifyAnalyticsHandlers } from '../composables/use-shopify-analytics-handlers'
 import { AnalyticsEvent } from '../types/events'
