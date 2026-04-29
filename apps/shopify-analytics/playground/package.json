@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@uniqueweb/shopify-analytics-playground",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@uniqueweb/shopify-analytics": "latest",
+    "nuxt": "^4.4.2"
+  }
+}
