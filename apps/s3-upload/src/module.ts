@@ -7,6 +7,7 @@ export interface ModuleOptions {
     endpoint?: string
     accessKey?: string
     secretKey?: string
+    forcePathStyle?: boolean
   }
 }
 
@@ -52,6 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
           endpoint: s3.endpoint!,
           accessKey: s3.accessKey!,
           secretKey: s3.secretKey!,
+          forcePathStyle: s3.forcePathStyle,
           dir: join(nitro.options.output.publicDir, buildAssetsDir),
           prefix: buildAssetsDir,
         })
