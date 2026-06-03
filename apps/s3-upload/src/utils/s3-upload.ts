@@ -16,6 +16,7 @@ export interface S3Config {
   endpoint: string
   accessKey: string
   secretKey: string
+  forcePathStyle?: boolean
 }
 
 interface UploadTask {
@@ -26,7 +27,7 @@ interface UploadTask {
 }
 
 export async function uploadAssets(config: S3Config): Promise<void> {
-  const { bucket, dir, prefix, endpoint, accessKey, secretKey } = config
+  const { bucket, dir, prefix, endpoint, accessKey, secretKey, forcePathStyle = false } = config
 
   try {
     await stat(dir)
@@ -44,7 +45,7 @@ export async function uploadAssets(config: S3Config): Promise<void> {
       accessKeyId: accessKey,
       secretAccessKey: secretKey,
     },
-    forcePathStyle: false,
+    forcePathStyle,
   })
 
   const allFiles = await collectFiles(dir)
