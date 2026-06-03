@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.2
+
+[compare changes](https://github.com/uniqueweb/nuxt-monospace/compare/v1.1.1...v1.1.2)
+
+### 🩹 Fixes
+
+- **s3-upload:** Forward forcePathStyle to uploadAssets ([b530f76](https://github.com/uniqueweb/nuxt-monospace/commit/b530f76))
+
+### ❤️ Contributors
+
+- Maximilian Schwarz <maximilian@unique-web.de>
+
 ## v1.1.1
 
 [compare changes](https://github.com/uniqueweb/nuxt-monospace/compare/v0.0.3...v1.1.1)
