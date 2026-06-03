@@ -33,6 +33,7 @@ export default defineNuxtConfig({
   s3Upload: {
     s3: {
       bucket: 'my-bucket',
+      region: 'auto',
       endpoint: 'https://<accountid>.r2.cloudflarestorage.com',
       accessKey: process.env.S3_ACCESS_KEY,
       secretKey: process.env.S3_SECRET_KEY,
@@ -43,12 +44,14 @@ export default defineNuxtConfig({
 
 ## Configuration
 
-| Option       | Type     | Required | Description                        |
-|--------------|----------|----------|------------------------------------|
-| `bucket`     | `string` | yes      | S3 bucket name                     |
-| `endpoint`   | `string` | yes      | S3-compatible endpoint URL         |
-| `accessKey`  | `string` | yes      | Access key ID                      |
-| `secretKey`  | `string` | yes      | Secret access key                  |
+| Option           | Type      | Required | Description                                    |
+|------------------|-----------|----------|------------------------------------------------|
+| `bucket`         | `string`  | yes      | S3 bucket name                                 |
+| `region`         | `string`  | yes      | AWS region or `auto` for Cloudflare R2         |
+| `endpoint`       | `string`  | yes      | S3-compatible endpoint URL                     |
+| `accessKey`      | `string`  | yes      | Access key ID                                  |
+| `secretKey`      | `string`  | yes      | Secret access key                              |
+| `forcePathStyle` | `boolean` | no       | Use path-style URLs (required for MinIO, etc.) |
 
 If any required field is missing the module logs a warning and skips the upload — the build itself is never aborted.
 

@@ -4,6 +4,7 @@ import { defineNuxtModule, useLogger } from '@nuxt/kit'
 export interface ModuleOptions {
   s3: {
     bucket?: string
+    region?: string
     endpoint?: string
     accessKey?: string
     secretKey?: string
@@ -34,7 +35,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const s3 = options.s3 ?? {}
 
-    const required = ['bucket', 'endpoint', 'accessKey', 'secretKey'] as const
+    const required = ['bucket', 'region', 'endpoint', 'accessKey', 'secretKey'] as const
     const missing = required.filter(key => !s3[key])
 
     if (missing.length > 0) {
@@ -50,6 +51,7 @@ export default defineNuxtModule<ModuleOptions>({
         const { uploadAssets } = await import('./utils/s3-upload')
         await uploadAssets({
           bucket: s3.bucket!,
+          region: s3.region!,
           endpoint: s3.endpoint!,
           accessKey: s3.accessKey!,
           secretKey: s3.secretKey!,

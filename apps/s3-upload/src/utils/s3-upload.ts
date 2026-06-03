@@ -13,6 +13,7 @@ export interface S3Config {
   bucket: string
   dir: string
   prefix: string
+  region: string
   endpoint: string
   accessKey: string
   secretKey: string
@@ -27,7 +28,7 @@ interface UploadTask {
 }
 
 export async function uploadAssets(config: S3Config): Promise<void> {
-  const { bucket, dir, prefix, endpoint, accessKey, secretKey, forcePathStyle = false } = config
+  const { bucket, dir, prefix, region, endpoint, accessKey, secretKey, forcePathStyle = false } = config
 
   try {
     await stat(dir)
@@ -35,8 +36,6 @@ export async function uploadAssets(config: S3Config): Promise<void> {
   catch {
     throw new Error(`Output directory not found: ${dir}`)
   }
-
-  const region = endpoint.replace('https://', '').split('.')[0] ?? 'auto'
 
   const client = new S3Client({
     endpoint,
