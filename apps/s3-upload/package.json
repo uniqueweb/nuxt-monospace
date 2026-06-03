@@ -1,6 +1,6 @@
 {
   "name": "@uniqueweb/s3-upload",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Nuxt module — uploads build assets to S3 after build:done",
   "repository": "uniqueweb/nuxt-monospace",
   "license": "MIT",
